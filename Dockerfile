@@ -2,11 +2,11 @@ FROM alpine
 
 RUN apk --no-cache --update add \
   bzip2 \
-  dpkg \
+  dpkg-dev \
   gnupg \
   gzip \
   perl \
-  rpm \
+  rpm-dev \
   ruby \
   ruby-etc \
   tar \
