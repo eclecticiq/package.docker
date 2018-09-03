@@ -43,4 +43,6 @@ RUN adduser -D package
 
 USER package
 
+WORKDIR /home/package
+
 CMD ["fpm"]
