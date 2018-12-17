@@ -6,6 +6,7 @@ RUN apk --no-cache --update add \
   dpkg-dev \
   gnupg \
   gzip \
+  make \
   perl \
   perl-digest-perl-md5 \
   rpm-dev \
@@ -33,7 +34,6 @@ RUN apk --no-cache --update add --virtual .perl \
 # Install fpm gem
 RUN apk --no-cache --update add --virtual .deps \
   gcc \
-  make \
   musl-dev \
   ruby-dev \
   && gem install fpm --no-rdoc --no-ri \
