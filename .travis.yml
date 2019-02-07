@@ -11,7 +11,7 @@ env:
     - version=1.10.0
 
 script:
-  - travis_retry docker build --tag "$image:latest" .
+  - travis_retry docker build --build-arg VERSION=$version --tag "$image:$version" .
 
 after_success:
   - if [ "$latest" == "true" ]; then
