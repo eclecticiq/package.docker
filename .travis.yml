@@ -10,12 +10,14 @@ env:
     - version=1.10.1
     - version=1.10.0
 
-jobs:
-  include:
-    - script: travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
-    - script: docker tag "$image:$version" "$image:latest"
-      if: env(latest) = true
-    - script:
-        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-          docker push $image
-      if: branch = master
+script:
+  - travis_retry docker build --tag "$image:latest" .
+
+after_success:
+  - if [ "$latest" == "true" ]; then
+    docker tag "$image:$version" "$image:latest";
+    fi
+    if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker push $image;
+    fi
