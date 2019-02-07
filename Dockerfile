@@ -1,5 +1,7 @@
 FROM alpine
 
+ARG VERSION
+
 # Install runtime dependencies
 RUN apk --no-cache --update add \
   bzip2 \
@@ -36,7 +38,7 @@ RUN apk --no-cache --update add --virtual .deps \
   make \
   musl-dev \
   ruby-dev \
-  && gem install fpm --no-rdoc --no-ri \
+  && gem install fpm --version $VERSION --no-rdoc --no-ri \
   && apk del .deps
 
 RUN adduser -D package
