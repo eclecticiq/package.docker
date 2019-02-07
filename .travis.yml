@@ -4,9 +4,8 @@ services: docker
 env:
   global:
     image=eclecticiq/package
-    latest=1.11.0
   matrix:
-    - version=1.11.0
+    - version=1.11.0 latest=true
     - version=1.10.2
     - version=1.10.1
     - version=1.10.0
