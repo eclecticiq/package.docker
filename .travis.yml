@@ -17,7 +17,7 @@ after_success:
   - if [ "$latest" == "true" ]; then
     docker tag "$image:$version" "$image:latest";
     fi
-    if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
     docker push $image;
     fi
