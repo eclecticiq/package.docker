@@ -13,7 +13,7 @@ env:
 jobs:
   include:
     - stage: build
-      script: travis_retry docker build --build-arg VERSION=$version --tag "$image:$version" .
+      script: travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
     - stage: tag latest
       script: docker tag "$image:$version" "$image:latest"
       env: latest=true
