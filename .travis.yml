@@ -12,13 +12,10 @@ env:
 
 jobs:
   include:
-    - stage: build
-      script: travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
-    - stage: tag latest
-      script: docker tag "$image:$version" "$image:latest"
-      env: latest=true
-    - stage: push
-      script:
+    - script: travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
+    - script: docker tag "$image:$version" "$image:latest"
+      if: env(latest) = true
+    - script:
         - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-          docker push $image;
-      branch: master
+          docker push $image
+      if: branch = master
