@@ -9,12 +9,16 @@ env:
     - version=1.10.2
     - version=1.10.1
     - version=1.10.0
-script:
-  - travis_retry docker build --build-arg VERSION=$version --tag "$image:$version" .
 
-after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker tag "$image:$latest" "$image:latest"
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push $image;
-    fi
+jobs:
+  include:
+    - stage: build
+      script: travis_retry docker build --build-arg VERSION=$version --tag "$image:$version" .
+    - stage: tag latest
+      script: docker tag "$image:$version" "$image:latest"
+      env: latest=true
+    - stage: push
+      script:
+        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+          docker push $image;
+      branch: master
