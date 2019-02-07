@@ -2,13 +2,21 @@ language: bash
 services: docker
 
 env:
-  image=eclecticiq/package
+  global:
+    image=eclecticiq/package
+  matrix:
+    - version=1.11.0 latest=true
+    - version=1.10.2
+    - version=1.10.1
+    - version=1.10.0
 
 script:
-  - travis_retry docker build --tag "$image:latest" .
+  - travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push $image;
-    fi
+  - test $latest = "true" &&
+    docker tag "$image:$version" "$image:latest"
+  - test $TRAVIS_BRANCH = "master" &&
+    test $TRAVIS_PULL_REQUEST = "false" &&
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
+    docker push $image
