@@ -14,10 +14,9 @@ script:
   - travis_retry docker build --build-arg FPM_VERSION=$version --tag "$image:$version" .
 
 after_success:
-  - if [ "$latest" == "true" ]; then
-    docker tag "$image:$version" "$image:latest";
-    fi
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push $image;
-    fi
+  - test $latest = "true" &&
+    docker tag "$image:$version" "$image:latest"
+  - test $TRAVIS_BRANCH = "master" &&
+    test $TRAVIS_PULL_REQUEST = "false" &&
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
+    docker push $image
