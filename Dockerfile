@@ -38,7 +38,7 @@ RUN apk --no-cache --update add --virtual .deps \
   gcc \
   musl-dev \
   ruby-dev \
-  && gem install fpm --version $FPM_VERSION --no-rdoc --no-ri \
+  && gem install fpm --version $FPM_VERSION \
   && apk del .deps
 
 # Allow fpm to build in /opt, reducing the need to run this as root :)
