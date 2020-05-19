@@ -38,10 +38,12 @@ RUN apk --no-cache --update add --virtual .deps \
   gcc \
   musl-dev \
   ruby-dev \
-  && gem install fpm --version $FPM_VERSION --no-rdoc --no-ri \
+  && gem install fpm --version $FPM_VERSION \
   && apk del .deps
 
-RUN adduser -D package
+# Allow fpm to build in /opt, reducing the need to run this as root :)
+RUN adduser -D package \
+    && chown package:package /opt
 
 USER package
 
