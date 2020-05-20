@@ -42,8 +42,7 @@ RUN apk --no-cache --update add --virtual .deps \
   && apk del .deps
 
 # Allow fpm to build in /opt, reducing the need to run this as root :)
-RUN adduser -D package \
-    && chown package:package /opt
+RUN adduser -D package
 
 USER package
 
